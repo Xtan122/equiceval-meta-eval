@@ -1,18 +1,13 @@
-"""Meta-evaluate EquiCEval on a labelled dataset.
+"""Meta-evaluate EquiCEval against EquivaMap on EquivaFormulation.
 
-Supports both labelled datasets this repo is meant to test on:
-
-* **self-generated benchmark** (``data/equiceval_full_benchmark.json``):
-  compare EquiCEval with the reference-form baseline ``--baseline refform``.
-* **EquivaFormulation** (``data/equivaformulation_affine_v2c_benchmark.json``):
-  compare EquiCEval with EquivaMap ``--baseline equivamap`` (quasi-Karp), and
-  report the definitional disagreements between the two criteria.
-
-EquiCEval is always scored. ``--baseline none`` gives EquiCEval-only metrics.
+Reports FPR / Recall for both methods under their own criteria, plus the
+definitional disagreement between EquiCEval's contract (feasible set + affine
+objective) and EquivaMap's quasi-Karp label.
 
 Usage:
     PYTHONPATH=. python -m expeval.run_comparison \
-        --pairs data/equiva_pairs.json --baseline equivamap --limit 240 \
+        --pairs data/equiva_pairs.json \
+        --contract feasible_set_and_objective_affine --limit 24 \
         --output output/meta_eval_report.json
 """
 from __future__ import annotations
@@ -26,7 +21,7 @@ from typing import List
 
 from src.equiceval.contracts import PRIMARY_EQUIVAFORMULATION_CONTRACT
 
-from expeval.adapters import EquiCEvalAdapter, EquivaMapAdapter, ReferenceFormAdapter
+from expeval.adapters import EquiCEvalAdapter, EquivaMapAdapter
 from expeval.adapters.common import Pair, load_pairs, rates
 
 
@@ -50,10 +45,6 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pairs", type=Path, required=True)
     parser.add_argument("--contract", default=PRIMARY_EQUIVAFORMULATION_CONTRACT)
-    parser.add_argument("--baseline", choices=["equivamap", "refform", "none"],
-                        default="equivamap",
-                        help="Second method: EquivaMap (EquivaFormulation) or the "
-                             "reference-form baseline (self-generated benchmark)")
     parser.add_argument("--seconds", type=float, default=1.0)
     parser.add_argument("--mode", default="certificates",
                         choices=["direct_only", "certificates", "early_stop"])
@@ -66,9 +57,13 @@ def main() -> int:
 
     pairs = stratified_limit(load_pairs(args.pairs, args.contract), args.limit)
     labels = [p.label for p in pairs]
+    families = [p.family or "unknown" for p in pairs]
 
     equiceval = EquiCEvalAdapter(seconds=args.seconds, mode=args.mode)
+    equivamap = EquivaMapAdapter()
     evaluations = [equiceval.score(p) for p in pairs]
+    equivamap_eval = [equivamap.score(p) for p in pairs]
+
     report = {
         "config": {
             "created_utc": datetime.now(timezone.utc).isoformat(),
@@ -78,70 +73,58 @@ def main() -> int:
             "mode": args.mode,
             "seconds": args.seconds,
             "limit": args.limit,
-            "baseline": args.baseline,
         },
         "equiceval": {
             "metrics": rates(labels, [d.outcome for d in evaluations]),
             "decisions": [d.__dict__ for d in evaluations],
         },
+        "equivamap": {
+            "metrics": rates(labels, [d.outcome for d in equivamap_eval]),
+            "decisions": [d.__dict__ for d in equivamap_eval],
+        },
     }
 
-    if args.baseline == "equivamap":
-        baseline = EquivaMapAdapter()
-    elif args.baseline == "refform":
-        baseline = ReferenceFormAdapter()
-    else:
-        baseline = None
+    # Definitional disagreements between the two criteria.
+    counts, examples = Counter(), []
+    for pair, decision in zip(pairs, evaluations):
+        published = pair.metadata.get("published_label")
+        if published is None:
+            continue
+        if decision.outcome == "faulty" and published:
+            counts["equiceval_faulty_quasikarp_equivalent"] += 1
+            examples.append(pair.pair_id)
+        elif decision.outcome in {"equivalent", "tolerance"} and not published:
+            counts["equiceval_equivalent_quasikarp_faulty"] += 1
+            examples.append(pair.pair_id)
+    report["definitional_disagreements"] = {
+        "counts": dict(counts), "examples": examples[:20],
+        "note": "Quasi-Karp (EquivaMap) is weaker than feasible-set + affine objective; "
+                "disagreements are definitional, not method errors.",
+    }
 
-    if baseline is not None:
-        baseline_eval = [baseline.score(p) for p in pairs]
-        report[baseline.name] = {
-            "metrics": rates(labels, [d.outcome for d in baseline_eval]),
-            "decisions": [d.__dict__ for d in baseline_eval],
-        }
-
-    if args.baseline == "equivamap":
-        # Definitional disagreements between EquiCEval (FS + affine) and quasi-Karp.
-        counts, examples = Counter(), []
-        for pair, decision in zip(pairs, evaluations):
-            published = pair.metadata.get("published_label")
-            if published is None:
-                continue
-            if decision.outcome == "faulty" and published:
-                counts["equiceval_faulty_quasikarp_equivalent"] += 1
-                examples.append(pair.pair_id)
-            elif decision.outcome in {"equivalent", "tolerance"} and not published:
-                counts["equiceval_equivalent_quasikarp_faulty"] += 1
-                examples.append(pair.pair_id)
-        report["definitional_disagreements"] = {
-            "counts": dict(counts), "examples": examples[:20],
-            "note": "Quasi-Karp is weaker than feasible-set + affine objective; "
-                    "disagreements are definitional, not method errors.",
-        }
-        intersection = [
-            (pair, decision) for pair, decision in zip(pairs, evaluations)
-            if pair.label is not None and pair.label == pair.metadata.get("published_label")
-        ]
-        report["agreement_intersection"] = {
-            "n": len(intersection),
-            "equiceval_metrics": rates(
-                [p.label for p, _ in intersection], [d.outcome for _, d in intersection])
-            if intersection else None,
-        }
+    # Fair head-to-head on the intersection where both criteria agree.
+    intersection = [
+        (pair, decision) for pair, decision in zip(pairs, evaluations)
+        if pair.label is not None and pair.label == pair.metadata.get("published_label")
+    ]
+    report["agreement_intersection"] = {
+        "n": len(intersection),
+        "equiceval_metrics": rates(
+            [p.label for p, _ in intersection], [d.outcome for _, d in intersection])
+        if intersection else None,
+    }
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"Saved -> {args.output}  (n={len(pairs)}, baseline={args.baseline})")
-    for name in [k for k in report if k in ("equiceval", "equivamap", "refform", "strong")]:
+    print(f"Saved -> {args.output}  (n={len(pairs)})")
+    for name in ("equiceval", "equivamap"):
         m = report[name]["metrics"]
         print(f"  {name:10s} FPR={_fmt(m['false_alarm_rate'])} "
               f"recall={_fmt(m['error_recall'])} "
               f"unresolved={_fmt(m['unresolved_rate'])} "
-              f"unsupported={_fmt(m['unsupported_rate'])} "
               f"unverified={m['n_unverified']}")
-    if "definitional_disagreements" in report:
-        print(f"  definitional disagreements: {report['definitional_disagreements']['counts']}")
+    print(f"  definitional disagreements: {dict(counts)}")
     return 0
 
 
