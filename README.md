@@ -35,29 +35,48 @@ EquivaMap itself needs an OpenAI key and a Gurobi license; the adapter here scor
 the dataset's published quasi-Karp label (EquivaMap's criterion), so the tests
 run offline.
 
+## Datasets (tested in order)
+
+1. **Self-generated benchmark** — `data/equiceval_full_benchmark.json`
+   (400 equivalent + 800 mutants, solver-certified labels, 4 base problems).
+   No EquivaMap label exists here, so the second method is the **reference-form
+   baseline** (`--baseline refform`); this validates the engine mechanics.
+2. **EquivaFormulation** — `data/equivaformulation_affine_v2c_benchmark.json`
+   (2,307 pairs, published quasi-Karp labels). Compared with **EquivaMap**
+   (`--baseline equivamap`); disagreements are definitional.
+
+`data/sample_pairs.json` (EquivaFormulation) and
+`data/sample_pairs_selfgen.json` (self-generated) are 12-pair smoke sets.
+
 ## Run
 
 ```bash
-# 1. EquivaFormulation benchmark -> pair schema
+# 1. Any labelled benchmark -> pair schema
+PYTHONPATH=. .venv/bin/python -m expeval.build_pairs \
+  --benchmark data/equiceval_full_benchmark.json \
+  --output data/selfgen_pairs.json
+
+# 2. EquiCEval only  (self-generated mechanics)
+PYTHONPATH=. .venv/bin/python -m expeval.run_comparison \
+  --pairs data/selfgen_pairs.json --baseline refform --limit 240 \
+  --output output/selfgen_report.json
+
+# 3. EquivaFormulation -> independent relabel under the settled contract
 PYTHONPATH=. .venv/bin/python -m expeval.build_pairs \
   --benchmark data/equivaformulation_affine_v2c_benchmark.json \
   --output data/equiva_pairs.json
-
-# 2. Independent relabel under the settled contract (MILP containment)
 PYTHONPATH=. .venv/bin/python -m expeval.relabel \
   --pairs data/equiva_pairs.json \
   --contract feasible_set_and_objective_affine \
   --output data/equiva_pairs_labeled.json
 
-# 3. Compare EquiCEval vs EquivaMap
+# 4. Compare EquiCEval vs EquivaMap (+ definitional disagreements)
 PYTHONPATH=. .venv/bin/python -m expeval.run_comparison \
-  --pairs data/equiva_pairs_labeled.json \
-  --contract feasible_set_and_objective_affine --limit 240 \
+  --pairs data/equiva_pairs_labeled.json --baseline equivamap --limit 240 \
   --output output/meta_eval_report.json
 ```
 
-`data/sample_pairs.json` is a 12-pair smoke set; the full benchmark is
-`data/equivaformulation_affine_v2c_benchmark.json` (2,307 pairs).
+`--baseline` accepts `equivamap` (default), `refform`, or `none` (EquiCEval-only).
 
 ## Layout
 
