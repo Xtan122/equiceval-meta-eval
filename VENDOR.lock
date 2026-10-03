@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-10-03T08:06:03.966420+00:00",
+  "created_utc": "2026-10-03T08:38:15.287229+00:00",
   "policy": "Manual vendoring. Edit a method repo first, run its tests, then re-copy and refresh this lock.",
   "sources": {
     "equiceval": {
@@ -29,7 +29,6 @@
     "vendor/src/__init__.py": "9f8d84fc4932231ddcaa0f7c28644ae6a9c27c29515f2856c91e09c3cc3f04d0",
     "vendor/src/benchmark/__init__.py": "cd230040e3991eefb3e39b746ce2f9b83445057b124738da65f907bacead05f2",
     "vendor/src/benchmark/analysis.py": "45bfd8bd507b61ecdec0a861e7146fb820d5060cfb161b94d717d3f933d26de9",
-    "vendor/src/benchmark/baseline_metrics.py": "ac0fe63bc754b363e77e07af4f7356951ba2a848182d756465f921a6513bdc65",
     "vendor/src/benchmark/baselines/__init__.py": "497f396da13d2895a3115683e0070870ba3e6ee5175ab01703eface985511efd",
     "vendor/src/benchmark/baselines/base.py": "979aba2c1bdd71a93492920579b368fb1563618278e4a823cbbca5ae521f477c",
     "vendor/src/benchmark/baselines/reference_form.py": "869baab6479a74dd5b1a4fef8a53f54afd282b3028cedfa6113e45d9ac1ea37d",
