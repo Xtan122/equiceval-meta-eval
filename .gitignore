@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+env/
+.pytest_cache/
+# Environment
+.env
+# Outputs
+output/
+*.lic
+# Editors
+.vscode/
+.idea/
+*.swp
+.DS_Store

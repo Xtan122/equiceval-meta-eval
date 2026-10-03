@@ -1,0 +1,101 @@
+{
+  "created_utc": "2026-10-03T08:06:03.966420+00:00",
+  "policy": "Manual vendoring. Edit a method repo first, run its tests, then re-copy and refresh this lock.",
+  "sources": {
+    "equiceval": {
+      "repo": "../EquiCEval",
+      "paths": [
+        "vendor/src/equiceval",
+        "vendor/src/benchmark",
+        "vendor/src/utils"
+      ]
+    },
+    "equivaformulation_adapter": {
+      "repo": "./EquiCEval-monorepo (working tree)",
+      "paths": [
+        "vendor/src/benchmark/equivaformulation.py",
+        "vendor/src/benchmark/independent_relabel.py"
+      ]
+    },
+    "EquivaMap": {
+      "repo": "https://github.com/HumainLab/EquivaMap",
+      "commit": "69d9c90edacb862824141b903b832fd2a1353d9e",
+      "paths": [
+        "vendor/EquivaMap"
+      ]
+    }
+  },
+  "files": {
+    "vendor/src/__init__.py": "9f8d84fc4932231ddcaa0f7c28644ae6a9c27c29515f2856c91e09c3cc3f04d0",
+    "vendor/src/benchmark/__init__.py": "cd230040e3991eefb3e39b746ce2f9b83445057b124738da65f907bacead05f2",
+    "vendor/src/benchmark/analysis.py": "45bfd8bd507b61ecdec0a861e7146fb820d5060cfb161b94d717d3f933d26de9",
+    "vendor/src/benchmark/baseline_metrics.py": "ac0fe63bc754b363e77e07af4f7356951ba2a848182d756465f921a6513bdc65",
+    "vendor/src/benchmark/baselines/__init__.py": "497f396da13d2895a3115683e0070870ba3e6ee5175ab01703eface985511efd",
+    "vendor/src/benchmark/baselines/base.py": "979aba2c1bdd71a93492920579b368fb1563618278e4a823cbbca5ae521f477c",
+    "vendor/src/benchmark/baselines/reference_form.py": "869baab6479a74dd5b1a4fef8a53f54afd282b3028cedfa6113e45d9ac1ea37d",
+    "vendor/src/benchmark/equivaformulation.py": "38e1af9d8806af033a50e5c72b2e1b40948eb377e04c227ed92504ed4ba5e9fc",
+    "vendor/src/benchmark/generator.py": "abbf67704f2a5691403946ce3c24e7958f6bfe84dfd61a8ad18ab755228a998f",
+    "vendor/src/benchmark/ground_truth.py": "a0bbba4542d3349b5185c2d252260370a1c0ee83169cae216dfe821ca3939566",
+    "vendor/src/benchmark/independent_oracle.py": "fb41345fc1194d5cbbb6be7e87321184a2216d8119f7e97607b339ee450c6df6",
+    "vendor/src/benchmark/independent_relabel.py": "14908b3681bba90b8190ba823152490a7135927da0e786dfab638eec976fa810",
+    "vendor/src/benchmark/mutator.py": "889f3ebe0a9e656e223d3a1959fc64bd327f1319c3a3c218a8f7402e3f75157e",
+    "vendor/src/benchmark/reference_form_baseline.py": "01724d01ec1ac3596d82f90077e4a9cea03c753a921956ca8722094b3c7386c3",
+    "vendor/src/benchmark/reference_ir.py": "961390f754594fa7b8aae4286b688f52923564f779daa1d85855d4256b0a7a69",
+    "vendor/src/benchmark/schema.py": "36b4cc1aac97f066679e3d4584d0a996e255a873f4dfdccd241ae76b8a3912e8",
+    "vendor/src/benchmark/splits.py": "a852880d836ead1de764efc352d4792d32d2b49e5158c6742beaf403b5e3fe9f",
+    "vendor/src/benchmark/transformations.py": "43c6f34fba9dae3ec62d3daa995d399e31fa1623c49ba6182b77205b047e2d9e",
+    "vendor/src/benchmark/verified_evaluation.py": "dd730b31b0ebab6bc9743ef99d26e383d3f6d8db53daca11a966dcad4ff18dec",
+    "vendor/src/benchmark/visualization.py": "c799f466abed6a61c69ea58f6a5deb101e8b76a295b3a55e60781657aa3f008c",
+    "vendor/src/benchmark/witness_metrics.py": "9034abb144c701184fb095f74b1d2e23e3165a24c3ded8cf0000d33059708864",
+    "vendor/src/equiceval/__init__.py": "988ad5b9e77399d19bd90cbbb98e39c6c836f60c9dc3446e6c2e57cee8ad92db",
+    "vendor/src/equiceval/behavioral_discrepancy.py": "0520f53f26afcd63ba25abffd18d4a610b322802b97d3fb3ad34bba046dfe693",
+    "vendor/src/equiceval/canonical_ir.py": "820f9e1129b5d4fbb68fdb4e35194d3d778e6260db31ec3ed0283af2c698e11d",
+    "vendor/src/equiceval/constraint_rmse.py": "1685000987b01ef8656c64904359170d3d3d12d4a183ce00c0156541185bab05",
+    "vendor/src/equiceval/contracts.py": "f0f0b9d3f5e772b835ac04a9dfb00deae47bf7db9f2d0e2c1bbf1ea30138de94",
+    "vendor/src/equiceval/directed_query.py": "6b13986b1d8cd30928dc3e3e7fb7fa070cf69caff264d4b0010db6be86b977e5",
+    "vendor/src/equiceval/evaluator.py": "9c41d859d44aec39096f3bce7f8602535820dde8e9a54129059a8fbf4e5b93c7",
+    "vendor/src/equiceval/evidence.py": "d886c6707f74389cbc8d21b0bf4341358dcbc7226a76b05c25b08dbce2ca8e94",
+    "vendor/src/equiceval/matching.py": "acea724c3f28b8fa0792be96773630648c5ca83e2444b22690f0865dfa4f51d5",
+    "vendor/src/equiceval/metrics.py": "d2601cbbfd37391870345c37173b2467acc908c8eb8d1439f75dc8878baf0647",
+    "vendor/src/equiceval/objective_discrepancy.py": "2f1031fa71788e9e852d9982d50f808524c4b3f69f4f327e807af647a0c641d3",
+    "vendor/src/equiceval/precheck.py": "fc31f74680743031b80b8057db815954b8c2a62ab409673a8095fea6f7271852",
+    "vendor/src/utils/solver_wrapper.py": "ab03d838e4bd5eda66601e6c40d1206edbbb11f0fbc5089ad17eaf8072ed60c3",
+    "vendor/EquivaMap/Evaluation/mapping_finder_.py": "592a1b6e44354eb89b19cc9cb0843a0c34a82a9ec0ccfb00b8843c041ab5b8f2",
+    "vendor/EquivaMap/Evaluation/step1_subp.py": "b1fa3580c464f1f971866137b9f116c2a434b2ab3470d271df56a9c19965ad67",
+    "vendor/EquivaMap/Evaluation/step2_map.py": "6e6cf1e40e7d741bf80c712a69dfa9b52b8794389228e99ba06cfff0ebc80675",
+    "vendor/EquivaMap/Evaluation/step3_ucode.py": "41fd318a63ece1eb20b784680a1d27c22e0276e91b711447670a78bd0d3b6ed5",
+    "vendor/EquivaMap/Evaluation/step4_compare.py": "7dbc28e7a2fac0bf08e356b282dc4f8027ea8c80ae5c4f3ee8df95588e9a7328",
+    "vendor/EquivaMap/LICENSE": "25cec05ae2e200d36dc555b167cc74d58194db724cec524af3f3aa4873d23892",
+    "vendor/EquivaMap/README.md": "914dffd4c993a2c4cbad1702d6805cb144be3b0294eb7d4b2b0b6e950065e202",
+    "vendor/EquivaMap/utils/CG_cuts.py": "ddaa2576df1e19d51a4085f261b40b70d24d67fa11967007a2708a3e7bb2ba85",
+    "vendor/EquivaMap/utils/LLM_Accuracy.py": "4c9b962d459a1474c8bb80a4f3bdac71dddd0eedc60cd7b0426f017a82251f87",
+    "vendor/EquivaMap/utils/add_slack_variables_integrate.py": "ef43cac8e9d6bc0074f6695056225e28c8ed22aa83d0e601197c591232913b25",
+    "vendor/EquivaMap/utils/column_switch.py": "a7d4ba4e9aa83f7f851104f632b13752dcdf0c45303112d17d920fe40bceb56e",
+    "vendor/EquivaMap/utils/constraints_form_switch.py": "903812a3dba6d9be412c417d622ca4bfd2291014121bc4db42e5b3010995dfae",
+    "vendor/EquivaMap/utils/copy_param.py": "84cf440cd2679d2cc7cf97739ae174872ce98e89d9bcd7b960c3367a808cf06d",
+    "vendor/EquivaMap/utils/digit_substitution.py": "cec526dd0908643cc9fe3980a9aa9e25ce6b10f9413aca637e1d51911897fa59",
+    "vendor/EquivaMap/utils/execution_accuracy.py": "1524ce316d3500ea5233c4ca588e4b497a3729567a8341bb79b7955ffc00dbca",
+    "vendor/EquivaMap/utils/feasibility.py": "7b135cd6033a99f7fabc9d887000300a7bb712e6d0773fdafdf1f395195b59de",
+    "vendor/EquivaMap/utils/generate_wl_test.py": "bd9c02c9e45f78ae2925a50658364372d493f4bd6dfba995c40e1f7890e1e1e6",
+    "vendor/EquivaMap/utils/linear_comb.py": "9b8130f3ff3c2ec29c1167ba6b71381031fae4b71059424de9fa330e896641f5",
+    "vendor/EquivaMap/utils/lippy_files_generator.py": "d37f57c0a67373729e680156ca22aefdd2ad21d05a9eba04d53f29346a0f0971",
+    "vendor/EquivaMap/utils/loose_contr.py": "efd92c0c3c85821f0da3428f93e51ef1a8b7e09af1256913c0b72706f8ebe588",
+    "vendor/EquivaMap/utils/lp_file_generation.py": "fdc8c29dd4748aacc01b834447cf565c3cca5b1a956f05ea3885430298e75de9",
+    "vendor/EquivaMap/utils/path_change_dynamic.py": "b65f3700d5d7b38ccce2288f2b950e151da1e4cac1317b527f0724f3ce4064c9",
+    "vendor/EquivaMap/utils/random_shuffle.py": "49c2f5e4a2ae08f1881c73eddec72a21de795789776b432b63acad16bb405111",
+    "vendor/EquivaMap/utils/rephrase_description.py": "590f1c1e10e2fd3bcc884bc4743aa7398ce43bd6da2a2db544a8f873dbf9b9b3",
+    "vendor/EquivaMap/utils/rescale_new.py": "50248eee994eeb033f3b03b90a0321d1bc61f438e9f15f7a39fc5b867f255e84",
+    "vendor/EquivaMap/utils/run_with_cuts.py": "2f24270c7eb70de9e441d06af9e88f8a743df5f06f20aacaf4e9efd9c3d87587",
+    "vendor/EquivaMap/utils/scaling_code.py": "109fa1808f155aa17036e896bb43c5b2479990d39e38eb09d2fdb94d3702adcc",
+    "vendor/EquivaMap/utils/scaling_integrate.py": "c9dbc0d3cb5c9bcd96d18de4d1cf2967a42be1e0baeee7b1f897577521c87ef7",
+    "vendor/EquivaMap/utils/standardize_lp.py": "a924665edb552fb8338de98df14d27bf687871269cf5e903a09481782302e993",
+    "vendor/EquivaMap/utils/store_A_b_c_cons.py": "1744d0024302219121c09b20b78e9a216beedea7856b1727bd67accb586cf05c",
+    "vendor/EquivaMap/utils/subprocess_for_lippy.py": "fafeead6309cb2c4a08be30c4780609107d941df3cc50b11b1f573d014eabdaa",
+    "vendor/EquivaMap/utils/subprocess_for_lp.py": "a43eb414a1e0faff8a5852fff30259de3e68c93a70ad400a66e6f95d2c7d0cc5",
+    "vendor/EquivaMap/utils/substitute_objective_function_integrate.py": "1e84ab56b7921f73cd2963496acca37d5139aecb9a67cc5dac131ebaa38810a9",
+    "vendor/EquivaMap/utils/variable_parameter_name_change_v1.py": "35f2c70f05043200fec3f825274513929755a4d5ddb9ebcf5f88fea978c22864",
+    "vendor/EquivaMap/utils/vp_name_change.py": "5aa621dc0db8227818dcfe3a2f07880aa2cb5750cd177a246abc04add7a61f35",
+    "vendor/EquivaMap/utils/wl_test_accuracy.py": "37e0540190520b534c4f8f340d949601eabbb18cebe99042ff0cd186af623e33",
+    "vendor/EquivaMap/workflow.png": "99f2c8a95d218ee8a81faeeeddb6e9546b9b5e4b3729e34ba536eb7ccb5476a9"
+  }
+}
